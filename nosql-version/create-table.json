@@ -1,0 +1,41 @@
+{
+    "AttributeDefinitions": [
+    {
+        "AttributeName": "name", 
+        "AttributeType": "S"
+    }, 
+    {
+        "AttributeName": "id", 
+        "AttributeType": "S"
+    }
+    ], 
+        "GlobalSecondaryIndexes": [
+        {
+            "IndexName": "name-index", 
+            "Projection": {
+                "ProjectionType": "ALL"
+            }, 
+            "ProvisionedThroughput": {
+                "WriteCapacityUnits": 5, 
+                "ReadCapacityUnits": 5
+            }, 
+            "KeySchema": [
+            {
+                "KeyType": "HASH", 
+                "AttributeName": "name"
+            }
+            ]
+        }
+    ], 
+        "ProvisionedThroughput": {
+            "WriteCapacityUnits": 5, 
+            "ReadCapacityUnits": 5
+        }, 
+        "TableName": "Planet", 
+        "KeySchema": [
+        {
+            "KeyType": "HASH", 
+            "AttributeName": "id"
+        }
+    ]
+}
