@@ -5,6 +5,7 @@ import com.starwars.api.utils.RegexUtils;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,7 +28,7 @@ public class Planet {
     @JoinTable(name = "PlanetFilm",
             joinColumns = @JoinColumn(name = "planet_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "film_id", referencedColumnName = "id"))
-    private List<Film> films;
+    private List<Film> films = new ArrayList<>();
 
     public static Planet of(PlanetDetailDTO dto, List<Film> films) {
         Planet planet = new Planet();
