@@ -19,3 +19,4 @@ Execute o seguinte comando na raiz de cada projeto (nosql-version e sql-version)
 * Inserir informaçes adicionas (films, starships) de forma assincrona.
 * Busca por "name" ser um filtro no endpoint GET /planets, e nao um endpoint exclusivo para isso.
 * Swagger.
+* Na versão do NoQSL verificar alternativa para a busca de todos os planetas.
