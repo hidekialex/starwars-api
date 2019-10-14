@@ -1,6 +1,7 @@
 package com.starwars.api.entity;
 
 import com.starwars.api.caller.dto.FilmDTO;
+import com.starwars.api.utils.RegexUtils;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -51,6 +52,9 @@ public class Film {
         film.setReleaseDate(dto.getReleaseDate());
         film.setTitle(dto.getTitle());
         film.setStarships(starships);
+
+        RegexUtils.extractIdForUrl(dto.getUrl())
+                .ifPresent(id -> film.setId(id));
         return film;
     }
 }

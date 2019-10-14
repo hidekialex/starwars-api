@@ -1,12 +1,11 @@
 package com.starwars.api.entity;
 
 import com.starwars.api.caller.dto.PlanetDetailDTO;
+import com.starwars.api.utils.RegexUtils;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -37,6 +36,9 @@ public class Planet {
         planet.setName(dto.getName());
         planet.setTerrain(dto.getTerrain());
         planet.setFilms(films);
+
+        RegexUtils.extractIdForUrl(dto.getUrl())
+                .ifPresent(id -> planet.setId(id));
         return planet;
     }
 }

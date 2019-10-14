@@ -1,6 +1,7 @@
 package com.starwars.api.entity;
 
 import com.starwars.api.caller.dto.StarshipDTO;
+import com.starwars.api.utils.RegexUtils;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -32,6 +33,10 @@ public class Starship {
         starship.setManufacturer(dto.getManufacturer());
         starship.setModel(dto.getModel());
         starship.setName(dto.getName());
+
+        RegexUtils.extractIdForUrl(dto.getUrl())
+                .ifPresent(id -> starship.setId(id));
+
         return starship;
     }
 }

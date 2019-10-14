@@ -26,6 +26,9 @@ public class FilmDTO {
     @JsonProperty("release_date")
     private String releaseDate;
 
+    @JsonProperty("url")
+    private String url;
+
     @JsonProperty("starships")
     private List<String> starships;
 }

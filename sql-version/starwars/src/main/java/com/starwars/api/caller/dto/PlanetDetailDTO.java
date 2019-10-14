@@ -17,6 +17,9 @@ public class PlanetDetailDTO {
     @JsonProperty("terrain")
     private String terrain;
 
+    @JsonProperty("url")
+    private String url;
+
     @JsonProperty("films")
     private List<String> films;
 }
