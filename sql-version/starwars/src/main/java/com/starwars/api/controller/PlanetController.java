@@ -42,7 +42,7 @@ public class PlanetController {
     }
 
     @GetMapping
-    public PlanetsResponse getAllPlanets(@RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "lastKey", required = false) String lastKey) {
-        return service.getAllPlanets(size, lastKey);
+    public PlanetsResponse getAllPlanets(@RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "page", required = false) Integer page) {
+        return service.getAllPlanets(size, page);
     }
 }

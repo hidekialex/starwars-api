@@ -14,6 +14,9 @@ import com.starwars.api.entity.Planet;
 import com.starwars.api.entity.Starship;
 import com.starwars.api.exception.PlanetNotFoundException;
 import com.starwars.api.repository.PlanetRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -77,9 +80,9 @@ public class PlanetService {
     }
 
     public PlanetInfoResponse getPlanetByName(String name) throws PlanetNotFoundException {
-        return null;/*repository.getByName(name)
+        return repository.findByName(name)
                 .map(PlanetInfoResponse::of)
-                .orElseThrow(() -> new PlanetNotFoundException(HttpStatus.NOT_FOUND));*/
+                .orElseThrow(() -> new PlanetNotFoundException(HttpStatus.NOT_FOUND));
     }
 
     public RemovePlanetResponse remove(Integer id) {
@@ -89,7 +92,13 @@ public class PlanetService {
         return response;
     }
 
-    public PlanetsResponse getAllPlanets(Integer size, String lastKey) {
-        return null;
+    public PlanetsResponse getAllPlanets(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Planet> pagedPlanets = repository.findAll(pageable);
+        List<PlanetInfoResponse> planetsInfoResponse = pagedPlanets
+                .stream()
+                .map(PlanetInfoResponse::of)
+                .collect(Collectors.toList());
+        return PlanetsResponse.of(planetsInfoResponse);
     }
 }
