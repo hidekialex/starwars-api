@@ -8,12 +8,18 @@ import java.util.List;
 @Data
 public class PlanetsResponse {
 
+    @JsonProperty("totalElements")
+    private Long totalElements;
+
+    @JsonProperty("page")
+    private Integer page;
+
+    @JsonProperty("size")
+    private Integer size;
+
+    @JsonProperty("totalPages")
+    private Integer totalPages;
+
     @JsonProperty("planets")
     private List<PlanetInfoResponse> planets;
-
-    public static PlanetsResponse of(List<PlanetInfoResponse> planetsInfoResponse) {
-        PlanetsResponse response = new PlanetsResponse();
-        response.setPlanets(planetsInfoResponse);
-        return response;
-    }
 }

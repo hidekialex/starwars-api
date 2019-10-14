@@ -95,10 +95,18 @@ public class PlanetService {
     public PlanetsResponse getAllPlanets(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Planet> pagedPlanets = repository.findAll(pageable);
+
         List<PlanetInfoResponse> planetsInfoResponse = pagedPlanets
                 .stream()
                 .map(PlanetInfoResponse::of)
                 .collect(Collectors.toList());
-        return PlanetsResponse.of(planetsInfoResponse);
+
+        PlanetsResponse response = new PlanetsResponse();
+        response.setPlanets(planetsInfoResponse);
+        response.setTotalElements(pagedPlanets.getTotalElements());
+        response.setPage(page);
+        response.setSize(size);
+        response.setTotalPages(pagedPlanets.getTotalPages());
+        return response;
     }
 }

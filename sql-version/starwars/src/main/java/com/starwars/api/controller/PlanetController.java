@@ -42,7 +42,7 @@ public class PlanetController {
     }
 
     @GetMapping
-    public PlanetsResponse getAllPlanets(@RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "page", required = false) Integer page) {
-        return service.getAllPlanets(size, page);
+    public PlanetsResponse getAllPlanets(@RequestParam(value = "size", required = false, defaultValue = "10") Integer size, @RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+        return service.getAllPlanets(page, size);
     }
 }
