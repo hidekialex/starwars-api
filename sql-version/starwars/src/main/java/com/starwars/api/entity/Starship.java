@@ -33,10 +33,6 @@ public class Starship {
         starship.setManufacturer(dto.getManufacturer());
         starship.setModel(dto.getModel());
         starship.setName(dto.getName());
-
-        RegexUtils.extractIdForUrl(dto.getUrl())
-                .ifPresent(id -> starship.setId(id));
-
         return starship;
     }
 }

@@ -12,7 +12,6 @@ import java.util.List;
 public class Planet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name")

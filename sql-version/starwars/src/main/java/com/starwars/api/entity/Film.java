@@ -52,9 +52,6 @@ public class Film {
         film.setReleaseDate(dto.getReleaseDate());
         film.setTitle(dto.getTitle());
         film.setStarships(starships);
-
-        RegexUtils.extractIdForUrl(dto.getUrl())
-                .ifPresent(id -> film.setId(id));
         return film;
     }
 }

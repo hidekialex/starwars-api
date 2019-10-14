@@ -1,6 +1,6 @@
 package com.starwars.api.service;
 
-import com.starwars.api.caller.StarwarsApiCaller;
+import com.starwars.api.caller.StarwarsApiExecutor;
 import com.starwars.api.caller.dto.FilmDTO;
 import com.starwars.api.caller.dto.PlanetDetailDTO;
 import com.starwars.api.caller.dto.StarshipDTO;
@@ -15,7 +15,6 @@ import com.starwars.api.entity.Planet;
 import com.starwars.api.entity.Starship;
 import com.starwars.api.exception.PlanetNotFoundException;
 import com.starwars.api.repository.PlanetRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,19 +26,19 @@ public class PlanetService {
 
     private PlanetRepository repository;
 
-    private StarwarsApiCaller starwarsApiCaller;
+    private StarwarsApiExecutor starwarsApiExecutor;
 
-    PlanetService(PlanetRepository repository, StarwarsApiCaller starwarsApiCaller) {
+    PlanetService(PlanetRepository repository, StarwarsApiExecutor starwarsApiExecutor) {
         this.repository = repository;
-        this.starwarsApiCaller = starwarsApiCaller;
+        this.starwarsApiExecutor = starwarsApiExecutor;
     }
 
     public CreatePlanetResponse create(CreatePlanetRequest request) throws PlanetNotFoundException {
-        PlanetDetailDTO planetDetailDTO = starwarsApiCaller.getPlanetByName(request.getName());
+        PlanetDetailDTO planetDetailDTO = starwarsApiExecutor.getPlanetByName(request.getName());
 
         List<FilmDTO> films = planetDetailDTO.getFilms()
                 .stream()
-                .map(f -> starwarsApiCaller.getSomethingById(f, FilmDTO.class))
+                .map(f -> starwarsApiExecutor.getFilm(f))
                 .map(CompletableFuture::join)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
@@ -47,7 +46,7 @@ public class PlanetService {
         Map<String, StarshipDTO> starships = films.stream()
                 .flatMap(f -> Arrays.stream(f.getStarships().toArray()))
                 .distinct()
-                .map(s -> starwarsApiCaller.getSomethingById(s.toString(), StarshipDTO.class))
+                .map(s -> starwarsApiExecutor.getStarship(s.toString()))
                 .map(CompletableFuture::join)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toMap(StarshipDTO::getUrl, s -> s));
@@ -74,13 +73,13 @@ public class PlanetService {
     public PlanetInfoResponse getPlanetById(String id) throws PlanetNotFoundException {
         return repository.getById(id)
                 .map(PlanetInfoResponse::of)
-                .orElseThrow(() -> new PlanetNotFoundException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new PlanetNotFoundException("Planet not found."));
     }
 
     public PlanetInfoResponse getPlanetByName(String name) throws PlanetNotFoundException {
         return repository.getByName(name)
                 .map(PlanetInfoResponse::of)
-                .orElseThrow(() -> new PlanetNotFoundException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new PlanetNotFoundException("Planet not found."));
     }
 
     public RemovePlanetResponse remove(String id) {

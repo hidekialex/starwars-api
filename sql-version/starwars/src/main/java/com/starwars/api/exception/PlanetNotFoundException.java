@@ -1,19 +1,14 @@
 package com.starwars.api.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.function.Supplier;
 
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class PlanetNotFoundException extends Exception {
 
-    private HttpStatus httpStatus;
-
-    public PlanetNotFoundException(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
-    }
-
-    public PlanetNotFoundException(HttpStatus httpStatus, String message) {
+    public PlanetNotFoundException(String message) {
         super(message);
-        this.httpStatus = httpStatus;
     }
 }

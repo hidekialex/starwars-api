@@ -37,7 +37,7 @@ public class StarwarsApiCaller {
                 .getResults()
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new PlanetNotFoundException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new PlanetNotFoundException("Planet not found.   "));
     }
 
     @Async
